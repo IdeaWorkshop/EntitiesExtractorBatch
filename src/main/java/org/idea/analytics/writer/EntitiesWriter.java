@@ -27,6 +27,7 @@ public class EntitiesWriter implements ItemWriter<Entities> {
     public void write(List<? extends Entities> list) throws Exception {
         list.forEach(entities -> {
             System.out.println(entities);
+
             entities.getPersons().forEach((person) -> {
                 Map<String, String> map = new HashMap<>();
                 map.put("name", person.getMention());
@@ -34,13 +35,16 @@ public class EntitiesWriter implements ItemWriter<Entities> {
             });
 
             entities.getLocations().forEach((location) ->{
-                //getJdbcTemplate().update(insertLocation, location);
+                Map<String, String> map = new HashMap<>();
+                map.put("name", location.getMention());
+                getJdbcTemplate().update(insertLocation, map);
             });
 
             entities.getProducts().forEach((product) -> {
-                //getJdbcTemplate().update(insertProduct, product);
+                Map<String, String> map = new HashMap<>();
+                map.put("name", product.getMention());
+                getJdbcTemplate().update(insertProduct, map);
             });
-
 
         });
     }
