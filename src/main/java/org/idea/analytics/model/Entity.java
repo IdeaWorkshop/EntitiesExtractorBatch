@@ -1,7 +1,12 @@
 package org.idea.analytics.model;
 
 
-public class Entity {
+import com.sun.org.apache.xml.internal.utils.SerializableLocatorImpl;
+
+import java.io.Serializable;
+
+
+public class Entity implements Serializable  {
     private String type;
     private String mention;
     private int count;

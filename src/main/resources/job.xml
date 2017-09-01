@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+
+    <batch:job id="extractEntities">
+        <batch:step id="step">
+            <batch:tasklet>
+                <batch:chunk commit-interval="1"
+                             reader="urlReader"
+                             processor="entitiesRequestProcessor"
+                             writer="entitiesWriter"/>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+    <bean id="urlReader" class="org.idea.analytics.reader.UrlReader"/>
+    <bean id="entitiesRequestProcessor" class="org.idea.analytics.processor.EntitiesRequestProcessor"/>
+    <bean id="entitiesWriter" class="org.idea.analytics.writer.EntitiesWriter">
+        <constructor-arg ref="jdbcTemplate"/>
+    </bean>
+</beans>
+
